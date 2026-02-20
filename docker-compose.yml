@@ -13,16 +13,16 @@ services:
     networks:
       - sawit-network
 
-  postgres-pembayaran:
-    image: postgres:16-alpine
-    ports:
-      - "5434:5432"
-    environment:
-      - POSTGRES_DB=sawit_pembayaran
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=root
-    networks:
-      - sawit-network
+#  postgres-pembayaran:
+#    image: postgres:16-alpine
+#    ports:
+#      - "5434:5432"
+#    environment:
+#      - POSTGRES_DB=sawit_pembayaran
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=root
+#    networks:
+#      - sawit-network
 
   auth-service:
     build:
@@ -38,19 +38,19 @@ services:
     networks:
       - sawit-network
 
-  pembayaran-service:
-    build:
-      context: ../ManajemenPembayaran
-    ports:
-      - "8085:8085"
-    depends_on:
-      - postgres-pembayaran
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-pembayaran:5432/sawit_pembayaran
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=root
-    networks:
-      - sawit-network
+#  pembayaran-service:
+#    build:
+#      context: ../ManajemenPembayaran
+#    ports:
+#      - "8085:8085"
+#    depends_on:
+#      - postgres-pembayaran
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-pembayaran:5432/sawit_pembayaran
+#      - SPRING_DATASOURCE_USERNAME=postgres
+#      - SPRING_DATASOURCE_PASSWORD=root
+#    networks:
+#      - sawit-network
 
   api-gateway:
     build:
@@ -59,7 +59,7 @@ services:
       - "8080:8080"
     depends_on:
       - auth-service
-      - pembayaran-service
+#      - pembayaran-service
     networks:
       - sawit-network
 
