@@ -7,3 +7,6 @@
 -  cd <nama_folder_gateway> && ./gradlew clean build -x test
 -  docker-compose up --build
 -  Service akan berhasil berjalan sesuai port yang terdaftar
+
+# Catatan:
+- Nama folder services dapat dicek di docker-compose.yml pada bagian "context:" setiap services
