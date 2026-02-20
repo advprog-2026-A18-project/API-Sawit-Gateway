@@ -23,3 +23,7 @@ spring:
           uri: http://auth-service:8081
           predicates:
             - Path=/auth/**
+        - id: pembayaran-service
+          uri: http://pembayaran-service:8085
+          predicates:
+            - Path=/pembayaran/**
