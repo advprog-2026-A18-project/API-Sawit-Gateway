@@ -22,7 +22,7 @@ services:
     depends_on:
       - postgres-auth
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-auth:5433/sawit_auth
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-auth:5432/sawit_auth
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
     networks:
