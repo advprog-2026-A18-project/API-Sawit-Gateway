@@ -32,6 +32,7 @@ spring:
             - Path=/pembayaran/**
           filters:
             - AuthenticationFilter
+            - RewritePath=/pembayaran/(?<segment>.*), /$\{segment}
 
 jwt:
   secret: ${JWT_SECRET}
