@@ -26,6 +26,14 @@ spring:
           filters:
             - AuthenticationFilter
 
+        - id: manajemen-kebun-sawit-service
+          uri: http://manajemen-kebun-sawit-service:8082
+          predicates:
+            Path=/kebun-sawit/**
+          filters:
+            AuthenticationFilter
+            RewritePath=/kebun-sawit/(?<segment>.*), /$\{segment}
+
         - id: pembayaran-service
           uri: http://pembayaran-service:8085
           predicates:
