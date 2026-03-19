@@ -34,6 +34,14 @@ spring:
             - AuthenticationFilter
             - RewritePath=/kebun-sawit/(?<segment>.*), /$\{segment}
 
+        - id: pengiriman-hasil-panen-sawit-service
+          uri: http://pengiriman-hasil-panen-sawit-service:8084
+          predicates:
+            Path=/hasil-panen/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/hasil-panen/(?<segment>.*), /$\{segment}
+
         - id: pembayaran-service
           uri: http://pembayaran-service:8085
           predicates:
