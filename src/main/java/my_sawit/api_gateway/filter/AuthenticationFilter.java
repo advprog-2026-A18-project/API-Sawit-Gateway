@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
@@ -27,17 +29,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
-
             if (validator.isSecured.test(request)) {
 
-                // Cek ada header Authorization?
                 if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     return onError(exchange, "Missing authorization header", HttpStatus.UNAUTHORIZED);
                 }
 
                 String authHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                    authHeader = authHeader.substring(7); // substring after bearer
+                    authHeader = authHeader.substring(7);
                 }
 
                 try {
@@ -46,12 +46,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     Claims claims = jwtUtils.getClaims(authHeader);
                     String email = claims.getSubject();
                     String role = claims.get("role", String.class);
+                    String userId = claims.get("id", String.class);
 
-                    // header-injection
                     request = exchange.getRequest()
                             .mutate()
                             .header("X-User-Email", email)
                             .header("X-User-Role", role)
+                            .header("X-User-Id", userId)
                             .build();
 
                 } catch (Exception e) {
@@ -64,13 +65,12 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         });
     }
 
-    private reactor.core.publisher.Mono<Void> onError(org.springframework.web.server.ServerWebExchange exchange, String err, HttpStatus httpStatus) {
+    private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(httpStatus);
         return response.setComplete();
     }
 
     public static class Config {
-        // let it be empty to fulfill the Spring Cloud Gateway needs
     }
 }
