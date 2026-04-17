@@ -1,5 +1,7 @@
 .env
 
+.DS_Store
+**.DS_STORE
 HELP.md
 .gradle
 build/
