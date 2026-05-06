@@ -9,7 +9,9 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: 'http://localhost:5173'
+            allowedOrigins:
+              - 'http://localhost:5173'
+              - 'https://mysawit-frontend-2d6fbc97d3fe.herokuapp.com'
             allowedMethods:
               - GET
               - POST
