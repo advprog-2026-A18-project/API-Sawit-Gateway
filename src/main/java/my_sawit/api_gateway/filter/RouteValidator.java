@@ -13,11 +13,15 @@ public class RouteValidator {
             "/auth-service/auth/login",
             "/auth-service/auth/google",
             "/auth-service/auth/refresh",
+            "/auth-service/auth/logout",
             "/auth-service/auth/tes"
     );
 
     public Predicate<ServerHttpRequest> isSecured =
             request -> openApiEndpoints
                     .stream()
-                    .noneMatch(uri -> request.getURI().getPath().contains(uri));
+                    .noneMatch(uri -> {
+                        String path = request.getURI().getPath();
+                        return path.equals(uri) || path.startsWith(uri + "/");
+                    });
 }
